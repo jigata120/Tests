@@ -9,7 +9,7 @@ test('basic test', async ({ page }) => {
 
 
 });
-// playwright.config.js
+ 
 module.exports = {
   testDir: './tests',
   timeout: 30000,
@@ -20,7 +20,7 @@ module.exports = {
   },
 };
 
-// tests/basic.test.js
+ 
 const { test, expect } = require('@playwright/test');
 
 test.describe('Prototype App Tests', () => {
@@ -158,7 +158,97 @@ test.describe('Prototype App Tests', () => {
     expect(articleText).toBe('Understanding JavaScript');
   });
 
- 
+  // Testimonials Page Tests
+  test('Testimonials page lists testimonials', async ({ page }) => {
+    await page.goto('/testimonials');
+    const testimonials = await page.$$('blockquote');
+    expect(testimonials.length).toBeGreaterThan(0);
+  });
+
+  test('Testimonials page has expected testimonial', async ({ page }) => {
+    await page.goto('/testimonials');
+    const testimonialText = await page.textContent('blockquote:nth-child(1) p');
+    expect(testimonialText).toContain('This service is fantastic!');
+  });
+
+  // FAQ Page Tests
+  test('FAQ page lists questions', async ({ page }) => {
+    await page.goto('/faq');
+    const questions = await page.$$('div.faq-question');
+    expect(questions.length).toBeGreaterThan(0);
+  });
+
+  test('FAQ page has expected question', async ({ page }) => {
+    await page.goto('/faq');
+    const questionText = await page.textContent('div.faq-question:nth-child(1) h3');
+    expect(questionText).toBe('What is your return policy?');
+  });
+
+  // Gallery Page Tests
+  test('Gallery page displays images', async ({ page }) => {
+    await page.goto('/gallery');
+    const images = await page.$$('div.gallery img');
+    expect(images.length).toBeGreaterThan(0);
+  });
+
+  test('Gallery page has expected image', async ({ page }) => {
+    await page.goto('/gallery');
+    const imageSrc = await page.getAttribute('div.gallery img:nth-child(1)', 'src');
+    expect(imageSrc).toBe('/images/photo1.jpg');
+  });
+
+  // Events Page Tests
+  test('Events page lists events', async ({ page }) => {
+    await page.goto('/events');
+    const events = await page.$$('div.event');
+    expect(events.length).toBeGreaterThan(0);
+  });
+
+  test('Events page has expected event', async ({ page }) => {
+    await page.goto('/events');
+    const eventText = await page.textContent('div.event:nth-child(1) h3');
+    expect(eventText).toBe('Annual Conference');
+  });
+
+  // Shop Page Tests
+  test('Shop page lists products', async ({ page }) => {
+    await page.goto('/shop');
+    const products = await page.$$('div.product');
+    expect(products.length).toBeGreaterThan(0);
+  });
+
+  test('Shop page has expected product', async ({ page }) => {
+    await page.goto('/shop');
+    const productText = await page.textContent('div.product:nth-child(1) h4');
+    expect(productText).toBe('Product A');
+  });
+
+  // Careers Page Tests
+  test('Careers page lists job openings', async ({ page }) => {
+    await page.goto('/careers');
+    const jobs = await page.$$('div.job-opening');
+    expect(jobs.length).toBeGreaterThan(0);
+  });
+
+  test('Careers page has expected job opening', async ({ page }) => {
+    await page.goto('/careers');
+    const jobText = await page.textContent('div.job-opening:nth-child(1) h3');
+    expect(jobText).toBe('Software Engineer');
+  });
+
+  // Privacy Policy Page Tests
+  test('Privacy Policy page has content', async ({ page }) => {
+    await page.goto('/privacy-policy');
+    const content = await page.textContent('article');
+    expect(content).toContain('Privacy Policy');
+  });
+
+  // Terms of Service Page Tests
+  test('Terms of Service page has content', async ({ page }) => {
+    await page.goto('/terms-of-service');
+    const content = await page.textContent('article');
+    expect(content).toContain('Terms of Service');
+  });
 
 });
 
